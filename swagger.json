@@ -1,0 +1,205 @@
+{
+    "openapi":"3.0.0",
+     "info":{
+        "title":"API filmes da Barbie",
+        "description":"API para consulta de filmes da Barbie",
+        "termsOfService":"http://swagger.io/terms/",
+        "contact":{
+           "name":"Barbie",
+           "url":"http://www.barbie.com",
+           "email":"pixelcorderosa@gmail.com"
+     },
+     "version":"1.0.0"
+    },
+    "servers":[
+        {
+            "url": "http://localhost:3002",
+            "description": "Servidor Local"
+        }
+    ],
+    "paths":{
+
+        "/movies": {
+            "get": {
+                "summary": "Lista os filmes",
+                "description": "Essa rota é responsavel por listar os filmes",
+                "tags": ["Movies"],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Movie"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "summary":"Atualiza um filme",
+                "description":"Essa rota é responsavel por atualizar um filme",
+                "tags":["Movies"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref":"#/components/schemas/Movie"
+                            },
+                            "examples":{
+                                "movie":{
+                                    "value":{
+                                        "id":"1",
+                                        "title":"Filme 1",
+                                        "description":"Filme muito bom",
+                                        "image":"http://www.barbie.com",
+                                        "year":"2021",
+                                        "link":"http://www.barbie.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description":"Filme atualizado com sucesso"
+                    },
+                    "400":{
+                        "description":"Erro ao atualizar filme"
+                    }
+                }
+            }
+        },
+
+        "/comments":{
+            "post":{
+                "summary":"Adiciona um comentário",
+                "description":"Essa rota é responsavel por adicionar um comentário a um filme",
+                "tags":["Movies"],
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                               "$ref":"#/components/schemas/Comment"
+                            },
+                            "examples":{
+                                "comment":{
+                                    "value":{
+                                        "movieId":"1",
+                                        "comment":"Filme muito bom"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"Comentário adicionado com sucesso"
+                    },
+                    "400":{
+                        "description":"Erro ao adicionar comentário"
+                    },
+                    "200":{
+                        "description":"OK",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/Comment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+           
+        },
+        "/movies/{id}/comments":{
+            "get":{
+                "summary":"Lista os comentários de um filme",
+                "description":"Essa rota é responsavel por listar os comentários de um filme",
+                "tags":["Movies"],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "required":true,
+                        "description":"Id do filme",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"OK",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"array",
+                                    "items":{
+                                        "$ref":"#/components/schemas/Comment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components":{
+        "schemas":{
+            "Comment":{
+                "type":"object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    },
+                    "movieId":{
+                        "type":"string"
+                    },
+                    "comment":{
+                        "type":"string"
+                    }
+                }
+            },
+            "Movie":{
+                "type":"object",
+                "properties":{
+                    "id":{
+                        "type":"string"
+                    },
+                    "title":{
+                        "type":"string"
+                    },
+                    "description":{
+                        "type":"string"
+                    },
+                    "image":{
+                        "type":"string"
+                    },
+                    "year":{
+                        "type":"string"
+                    },
+                    
+                   "link":{
+                        "type":"string"
+                    }
+                }
+            }
+        },
+        "securitySchemes":{
+            "bearerAuth":{
+                "type":"http",
+                "scheme":"bearer",
+                "bearerFormat":"JWT"
+            }
+        }
+    }
+}
