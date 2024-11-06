@@ -41,18 +41,6 @@ const deleteCommentsMovies = async (request,response) => {
     }))
 }
 
-const getPeopleProgramCodigo = async (request,response) =>{
-    await getPeopleProgramCodigoDB(parseInt(request.params.idPeo),parseInt(request.params.idPro))
-    .then(data => response.status(200).json(data))
-    .catch (err => response.status(500).json(
-        {
-            status:'error', 
-            message: 'Erro ao consultar a  People Program: ' + err
-        }
-    ));
-
-}
-
 
 module.exports = {
     getMovieComments,

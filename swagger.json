@@ -41,8 +41,8 @@
                 }
             },
             "put":{
-                "summary":"Atualiza um filme",
-                "description":"Essa rota é responsavel por atualizar um filme",
+                "summary":"Atualiza a nota de  um filme",
+                "description":"Essa rota é responsavel por atualizar a nota de  um filme",
                 "tags":["Movies"],
                 "requestBody":{
                     "content":{
@@ -53,12 +53,9 @@
                             "examples":{
                                 "movie":{
                                     "value":{
-                                        "id":"1",
-                                        "title":"Filme 1",
-                                        "description":"Filme muito bom",
-                                        "image":"http://www.barbie.com",
-                                        "year":"2021",
-                                        "link":"http://www.barbie.com"
+                                        "id":"2",
+                                        "notice": 6
+                                        
                                     }
                                 }
                             }
@@ -67,10 +64,10 @@
                 },
                 "responses":{
                     "200":{
-                        "description":"Filme atualizado com sucesso"
+                        "description":"Nota do filme atualizada com sucesso"
                     },
                     "400":{
-                        "description":"Erro ao atualizar filme"
+                        "description":"Erro ao atualizar nota do  filme"
                     }
                 }
             }
@@ -90,7 +87,7 @@
                             "examples":{
                                 "comment":{
                                     "value":{
-                                        "movieId":"1",
+                                        "movie_id":"1",
                                         "comment":"Filme muito bom"
                                     }
                                 }
@@ -182,6 +179,9 @@
                         "type":"string"
                     },
                     "image":{
+                        "type":"string"
+                    },
+                    "notice":{
                         "type":"string"
                     },
                     "year":{

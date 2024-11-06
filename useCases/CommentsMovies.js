@@ -52,14 +52,13 @@ const addCommentsMoviesDB = async (body) => {
     const { comment, movie_id } = body; // Corrigido de movies_id para movie_id
     
     const results = await pool.query(
-      `INSERT INTO comments (comment, movie_id) VALUES ($1, $2) RETURNING comment, movie_id`,
-      [comment, movie_id]
-    );
-   
+      `INSERT INTO comments ( movie_id,comment) VALUES ($1, $2) RETURNING movie_id,comment`,
+      [movie_id,comment]
+    );   
     const commentsMovies = results.rows[0];
     return new CommentsMovies(
-      commentsMovies.comment,
-      commentsMovies.movie_id
+      commentsMovies.movie_id,
+      commentsMovies.comment
     );
     
   } catch (err) {
