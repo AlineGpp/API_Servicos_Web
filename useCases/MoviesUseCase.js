@@ -23,25 +23,26 @@ const getMoviesDB = async () => {
 
 const updateNoticeMovieDB = async (body) => {
   try {
-    const { id, notice} = body;
+    const { id, notice } = body;
     const results = await pool.query(
       `UPDATE movies SET notice = $2
        WHERE id = $1
-        RETURNING id, notice`,
+       RETURNING id, notice`,
       [id, notice]
     );
-    if (results.rowCount == 0) {
-      throw `Nenhum registro encontrado com o ID ${id} para ser alterado`;
+
+    if (results.rowCount === 0) {
+      throw new Error(`Nenhum registro encontrado com o ID ${id} para ser alterado`);
     }
+
     const movie = results.rows[0];
-    return new Movies(
-      movie.id,
-      movie.notice,
-    );
+    return { id: movie.id, notice: movie.notice };
   } catch (err) {
-    throw "Erro ao alterar a nota: " + err;
+    throw new Error("Erro ao alterar a nota: " + err.message);
   }
 };
+
+
 
 const deleteMovieDB = async (id) => {
   try {
@@ -55,28 +56,6 @@ const deleteMovieDB = async (id) => {
     throw "Erro ao remover a pessoa: " + err;
   }
 };
-
-// const getPeoplePorCodigoDB = async (id) => {
-//   try {
-//     const results = await pool.query(`SELECT * FROM people where id = $1`, [
-//       id,
-//     ]);
-//     if (results.rowCount == 0) {
-//       throw "Nenhum registro encontrado com o ID: " + id;
-//     } else {
-//       const people = results.rows[0];
-//       return new People(
-//         people.id,
-//         people.name,
-//         people.e_mail,
-//         people.login,
-//         people.password
-//       );
-//     }
-//   } catch (err) {
-//     throw "Erro ao recuperar a pessoa: " + err;
-//   }
-// };
 
 module.exports = {
   getMoviesDB,

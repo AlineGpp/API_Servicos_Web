@@ -12,19 +12,22 @@ const getMovieComments = async (request,response) =>{
 
 }
 
-const addCommentsMovies = async (request,response) => {
-    await addCommentsMoviesDB(request.body)
-    .then(data => response.status(200).json({
-        status:'success',
-        message: 'Commentário  inserido com sucesso',
-        objeto: data
-    }))
-    .catch (err => response.status(400).json({
-        status:'error',
-        message: 'Erro ao inserir Comentário: ' + err
-        
-    }))
-}
+const addCommentsMovies = async (request, response) => {
+    const idMovie = request.params.id;  // Obtém o ID do filme dos parâmetros da URL
+    const comment = request.body.comment;  // Obtém o comentário do corpo da requisição
+
+    // Chama a função do banco de dados passando o ID do filme e o comentário
+    await addCommentsMoviesDB({ movie_id: idMovie, comment })
+        .then(data => response.status(200).json({
+            status: 'success',
+            message: 'Comentário inserido com sucesso',
+            objeto: data
+        }))
+        .catch(err => response.status(400).json({
+            status: 'error',
+            message: 'Erro ao inserir comentário: ' + err
+        }));
+};
 
 
 const deleteCommentsMovies = async (request,response) => {

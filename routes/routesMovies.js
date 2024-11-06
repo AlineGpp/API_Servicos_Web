@@ -12,9 +12,10 @@ const routesMovies = new Router();
 
 routesMovies
   .route("/movies")
-  .get(getMovies)
-  .put(updateNoticeMovie);
+  .get(getMovies);
 
-routesMovies.route("/movie/:id").delete(verificaJWT,deleteMovies);
+routesMovies.route("/movies/:id")
+.put(updateNoticeMovie)
+.delete(verificaJWT,deleteMovies);
 
 module.exports =  routesMovies;

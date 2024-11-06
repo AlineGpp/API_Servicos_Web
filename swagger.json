@@ -39,11 +39,26 @@
                         }
                     }
                 }
-            },
+            }
+           
+        },
+
+        "/movies/{id}":{
             "put":{
                 "summary":"Atualiza a nota de  um filme",
                 "description":"Essa rota é responsavel por atualizar a nota de  um filme",
                 "tags":["Movies"],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "required":true,
+                        "description":"Id do filme",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
                 "requestBody":{
                     "content":{
                         "application/json":{
@@ -53,7 +68,6 @@
                             "examples":{
                                 "movie":{
                                     "value":{
-                                        "id":"2",
                                         "notice": 6
                                         
                                     }
@@ -71,13 +85,25 @@
                     }
                 }
             }
+
         },
 
-        "/comments":{
+        "/comments/{id}":{
             "post":{
                 "summary":"Adiciona um comentário",
                 "description":"Essa rota é responsavel por adicionar um comentário a um filme",
                 "tags":["Movies"],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "required":true,
+                        "description":"Id do filme",
+                        "schema":{
+                            "type":"string"
+                        }
+                    }
+                ],
                 "requestBody":{
                     "content":{
                         "application/json":{
@@ -87,7 +113,6 @@
                             "examples":{
                                 "comment":{
                                     "value":{
-                                        "movie_id":"1",
                                         "comment":"Filme muito bom"
                                     }
                                 }

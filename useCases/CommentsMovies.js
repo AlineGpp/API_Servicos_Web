@@ -47,24 +47,26 @@ const getMovieCommentsByIdDB = async (id) => {
 };
 
 
-const addCommentsMoviesDB = async (body) => {
+const addCommentsMoviesDB = async ({ movie_id, comment }) => {
   try {
-    const { comment, movie_id } = body; // Corrigido de movies_id para movie_id
-    
+    // Insere o comentário no banco de dados para o filme especificado
     const results = await pool.query(
-      `INSERT INTO comments ( movie_id,comment) VALUES ($1, $2) RETURNING movie_id,comment`,
-      [movie_id,comment]
-    );   
-    const commentsMovies = results.rows[0];
-    return new CommentsMovies(
-      commentsMovies.movie_id,
-      commentsMovies.comment
+      `INSERT INTO comments (movie_id, comment) VALUES ($1, $2) RETURNING movie_id, comment`,
+      [movie_id, comment]
     );
-    
+
+    // Retorna o comentário recém-inserido
+    const commentsMovies = results.rows[0];
+    return {
+      movie_id: commentsMovies.movie_id,
+      comment: commentsMovies.comment
+    };
+
   } catch (err) {
     throw "Erro ao inserir Comentário: " + err;
   }
 };
+
 
 const deleteCommentMovieDB = async (idMovie,idComment) => {
   try {

@@ -22,16 +22,24 @@ const addPeople = async (request, response) => {
 }
 
 const updateNoticeMovie = async (request, response) => {
-    await updateNoticeMovieDB(request.body)
-        .then(data => response.status(200).json({
-            status: "success", message: "Nota adicionada",
-            objeto: data
-        }))
-        .catch(err => response.status(400).json({
-            status: 'error',
-            message: err
-        }));
-}
+    const idMovie = request.params.id;  // Obtém o ID do filme dos parâmetros da URL
+    const notice = request.body.notice;  // Obtém o comentário do corpo da requisição
+
+    try {
+      const data = await updateNoticeMovieDB({ id: idMovie, notice });
+      response.status(200).json({
+        status: "success",
+        message: "Nota atualizada com sucesso",
+        objeto: data
+      });
+    } catch (err) {
+      response.status(400).json({
+        status: "error",
+        message: err.message
+      });
+    }
+  };
+  
 
 const deleteMovies = async (request, response) => {
     await deleteMovieDB(parseInt(request.params.id))
